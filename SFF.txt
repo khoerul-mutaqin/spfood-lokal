@@ -1,21 +1,29 @@
 <t t-name="stock.report_picking_copy_1">
             <t t-call="web.report_layout">
                 <style>
-                    table.table-custom-bordered {
-                        border: 1px solid #000;
-                        border-collapse: collapse;
+                    .table-custom-bordered {
+                        border: 1px solid #000 !important;
+                        border-collapse: collapse !important;
+                        text-align:left !important;
                     }
                 
-                    table.table-custom-bordered th,
-                    table.table-custom-bordered td {
-                        border: 1px solid #000;
-                        padding: 4px 6px;
-                        vertical-align: middle;
+                    .table-custom-bordered {
+                        border: 1px solid #000 !important;
+                        border-collapse: collapse !important;
+                        text-align:left !important;
+                    }
+                    .table-custom-bordered th,
+                    .table-custom-bordered td {
+                        border: 1px solid #000 !important;
+                        padding: 4px 6px !important;
+                        vertical-align: middle !important;
+                        text-align:left !important;
                     }
                 
-                    table.table-custom-bordered thead th {
-                        font-weight: bold;
-                        background-color: #f5f5f5;
+                    .table-custom-bordered thead th {
+                        font-weight: bold !important;
+                        text-align:left !important;
+                        background-color: #f5f5f5 !important;
                     }
                 </style>
                 <div class="article o_report_layout_standard">

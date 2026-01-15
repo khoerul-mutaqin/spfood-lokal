@@ -1,0 +1,11 @@
+<data>
+    <xpath expr="//div[@name='production_order']" position="replace">
+    </xpath>
+    
+    <xpath expr="//t[@name='origin']" position="before" meta-t-field="doc.x_studio_source_document_combine">
+      <div name="production_order" t-if="doc.x_studio_source_document_combine">
+        <strong>Manufacturing Order: </strong>
+        <span t-field="doc.x_studio_source_document_combine"/>
+      </div>
+    </xpath>
+  </data>

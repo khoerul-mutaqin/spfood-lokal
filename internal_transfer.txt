@@ -1,0 +1,150 @@
+<t t-name="studio_report_document">
+    <t t-call="web.basic_layout">
+
+        <!-- ================= STYLE ================= -->
+        <style>
+            table.table-custom-bordered {
+                border: 1px solid #000;
+                border-collapse: collapse;
+                page-break-inside: auto;
+            }
+            table.table-custom-bordered th,
+            table.table-custom-bordered td {
+                border: 1px solid #000;
+                padding: 4px 6px;
+                vertical-align: middle;
+            }
+            table.table-custom-bordered thead th {
+                font-weight: bold;
+                background-color: #f5f5f5;
+            }            
+            thead {
+                display: table-header-group;
+            }
+            tbody {
+                display: table-row-group;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+        </style>
+
+        <div class="article o_report_layout_standard">
+            <t t-foreach="docs" t-as="o">
+
+                <!-- ================= PAGE ================= -->
+                <div class="page o_report_stockpicking_operations" style="page-break-after: avoid;">
+
+                    <!-- ================= HEADER ================= -->
+                    <div class="row justify-content-between">
+                        <div class="col-6">
+                            <h3 t-field="o.picking_type_id.code"/>
+                            <h2 t-field="o.name"/>
+                        </div>
+                        <div class="col-6 text-end">
+                            <div t-field="o.name" t-options="{                                     'widget': 'barcode',                                     'width': 500,                                     'height': 80,                                     'img_style': 'width:250px;height:40px;'                                  }"/>
+                        </div>
+                    </div>
+
+                    <!-- ================= INFO ================= -->
+                    <div class="mt32 mb32 ">
+                        <div t-if="o.origin">
+                            <strong>Order:</strong>
+                            <span t-field="o.origin"/>
+                        </div>
+                        <div>
+                            <strong>Status:</strong>
+                            <span t-field="o.state"/>
+                        </div>
+                        <div>
+                            <strong>Scheduled Date:</strong>
+                            <span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
+                        </div>
+                    </div>
+                    
+
+
+                    <!-- ================= TABLE ================= -->
+                    <t t-set="format_number" t-value="lambda x: int(x) if x == int(x) else x"/>
+
+                    <t t-set="from_col_exists" t-value="o.picking_type_id.code != 'incoming'"/>
+                    <t t-set="to_col_exists" t-value="o.picking_type_id.code != 'outgoing'"/>
+
+                    <!-- BARCODE DIMATIKAN UNTUK INTERNAL -->
+                    <t t-set="barcode_col_exists" t-value="o.picking_type_id.code != 'internal'                                 and any(ml.product_id.barcode for ml in o.move_line_ids)"/>
+
+                    <table class="table table-sm table-custom-bordered" t-if="o.move_ids">
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-end">Quantity</th>
+                                <th t-if="from_col_exists">From</th>
+                                <th t-if="to_col_exists">To</th>
+                                <th t-if="barcode_col_exists" class="text-center">Barcode</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <t t-foreach="o.move_ids.filtered(lambda m: m.quantity)" t-as="move">
+
+                                <!-- ===== SUMMARY ROW ===== -->
+                                <tr>
+                                    <td>
+                                        <span t-field="move.product_id.display_name"/>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <span t-out="format_number(move.quantity)"/>
+                                        <span t-field="move.product_uom"/>
+                                    </td>
+
+                                    <td t-if="from_col_exists">
+                                        <span t-field="move.location_id.display_name"/>
+                                    </td>
+
+                                    <td t-if="to_col_exists">
+                                        <span t-field="move.location_dest_id.display_name"/>
+                                    </td>
+
+                                    <!-- BARCODE HANYA NON INTERNAL -->
+                                    <td t-if="barcode_col_exists" class="text-center">
+                                        <div t-if="move.product_id.barcode" t-field="move.product_id.barcode" t-options="{                                                 'widget': 'barcode',                                                 'width': 300,                                                 'height': 60,                                                 'img_style': 'height:25px;'                                              }"/>
+                                    </td>
+                                </tr>
+
+                                <!-- ===== DETAIL MOVE LINE (NON INTERNAL SAJA) ===== -->
+                                <t t-if="o.picking_type_id.code != 'internal'">
+                                    <t t-foreach="move.move_line_ids.filtered(lambda ml: not ml.is_entire_pack)" t-as="line">
+                                        <tr>
+                                            <td style="padding-left:40px;">
+                                                <span t-if="line.lot_id" t-field="line.lot_id.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-out="format_number(line.quantity)"/>
+                                                <span t-field="line.product_uom_id"/>
+                                            </td>
+                                            <td t-if="from_col_exists">
+                                                <span t-field="line.location_id.display_name"/>
+                                            </td>
+                                            <td t-if="to_col_exists">
+                                                <span t-field="line.location_dest_id.display_name"/>
+                                            </td>
+                                            <td t-if="barcode_col_exists"/>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div class="oe_structure"/>
+                    <p t-field="o.note"/>
+
+                </div>
+            </t>
+        </div>
+    </t>
+</t>

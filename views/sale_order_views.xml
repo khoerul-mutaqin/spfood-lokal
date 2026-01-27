@@ -1,0 +1,62 @@
+<data>
+    <xpath expr="/form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/list//field[@name='product_uom_qty']" position="attributes">
+        <attribute name="options">{"digits":[4,2]}</attribute>
+    </xpath>
+
+    <xpath expr="/form//field[@name='tax_totals']" position="replace">
+        <table class="float-end">
+            <tbody>
+                <tr>
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="amount_untaxed" />
+                    </td>
+                    <td class="o_list_monetary">
+                        <span style="white-space: nowrap; font-weight: bold;" name="Untaxed Amount">
+                            <field name="amount_untaxed" nolabel="1" />
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="amount_tax" />
+                    </td>
+                    <td class="o_tax_group">
+                        <span class="o_tax_group_amount_value o_list_monetary">
+                            <field name="amount_tax" nolabel="1" />
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="x_amount_untaxed" />
+                    </td>
+                    <td class="o_tax_group">
+                        <span class="o_tax_group_amount_value o_list_monetary">
+                            <field name="x_amount_untaxed" nolabel="1" />
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="x_discount" />
+                    </td>
+                    <td class="o_tax_group">
+                        <span class="o_tax_group_amount_value o_list_monetary">
+                            <field name="x_discount" nolabel="1" />
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="amount_total" />
+                    </td>
+                    <td class="o_list_monetary">
+                        <span name="amount_total" style="font-size: 1.3em; font-weight: bold; white-space: nowrap;" class="oe_subtotal_footer_separator">
+                            <field name="amount_total" nolabel="1" />
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </xpath>
+</data>

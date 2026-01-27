@@ -1,0 +1,37 @@
+<data>
+  
+    <!-- inherit -->
+    <!-- document_tax_totals -->
+  
+    <!--batas atas https://www.falinwa.com/odoo/helpdesk.ticket/13728-->
+    <xpath expr="//tr[@class='o_total']" position="attributes">
+        <attribute name="t-if">False</attribute>
+    </xpath>
+    
+    
+
+    <xpath expr="/t[@t-name='sale.document_tax_totals']" position="inside">
+        <t t-set="total_discount" t-value="sum(                 l.product_uom_qty * l.price_unit * (l.discount or 0.0) / 100                 for l in doc.order_line                 if not l.display_type            )"/>
+        <tr t-if="total_discount">
+            <td class="text-start">
+                <span>Discount</span>
+            </td>
+            <td class="text-end">
+                <span t-field="doc.x_discount" t-options="{                           'widget': 'monetary',                           'display_currency': currency                       }"/>
+            </td>
+        </tr>
+        
+        
+        <!--Total amount with all taxes-->
+        <t t-set="same_tax_base" t-value="tax_totals['same_tax_base']"/>        
+        <tr class="o_total">
+            <td><strong>Total</strong></td>
+            <td class="text-end">
+                <strong t-out="tax_totals['total_amount_currency']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">31.05</strong>
+            </td>
+        </tr>        
+
+    </xpath>
+    <!--batas bawah https://www.falinwa.com/odoo/helpdesk.ticket/13728-->
+    
+</data>

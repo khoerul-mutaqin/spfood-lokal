@@ -12,7 +12,7 @@ class SaleOrder(models.Model):
     def _compute_x_discount(self):
         x_discount = 0
         for order in self:
-            discount_line = self.order_line.filtered(lambda x: x.price_subtotal > 0)
+            discount_line = self.order_line.filtered(lambda x: x.price_subtotal < 0)
             #discount line 
             for line in discount_line:
                 x_discount += line.price_subtotal

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ACTIONS (SERVER) -->
+        
+        <record id="action_sale_order_set_discount_and_untaxed_amount" model="ir.actions.server">
+            <field name="name">FAL : Set Discount</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">
+# Available variables:
+#  - env: environment on which the action is triggered
+#  - model: model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: utility function to compare floats based on specific precision
+#  - b64encode, b64decode: functions to encode/decode binary data
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - _logger: _logger.info(message): logger to emit messages in server logs
+#  - UserError: exception class for raising user-facing warning messages
+#  - Command: x2many commands namespace
+# To return an action, assign: action = {...}
+self = records
+for rec in self:
+    for order in self:
+        x_discount = 0
+        x_amount_untaxed = 0        
+        discount_line = order.order_line.filtered(lambda x: x.price_subtotal < 0)
+        #discount line 
+        for line in discount_line:
+            x_discount += line.price_subtotal
+
+        untaxed_line = order.order_line.filtered(lambda x: x.price_subtotal > 0)
+        #untaxed line 
+        for line in untaxed_line:
+            x_amount_untaxed += line.price_subtotal
+        
+        order['x_discount'] = x_discount
+        order['x_amount_untaxed'] = x_amount_untaxed
+          
+            </field>
+        </record>
+    </data>
+</odoo>

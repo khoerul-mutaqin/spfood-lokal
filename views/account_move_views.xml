@@ -1,0 +1,63 @@
+<data>
+  <xpath expr="/form//list[@name='journal_items']//field[@name='quantity']" position="attributes">
+    <attribute name="options">{"digits":[4,2]}</attribute>
+  </xpath>
+    <xpath expr="/form//field[@name='tax_totals']" position="replace"/>
+    <xpath expr="/form//field[@name='invoice_payments_widget']" position="replace"/>
+    <xpath expr="/form//field[@name='amount_residual']" position="replace">
+        <table class="float-end">
+            <tbody>
+                <tr invisible="not x_amount_untaxed">
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="x_amount_untaxed" string="Untaxed Amount"/>
+                    </td>
+                    <td class="o_tax_group">
+                        <span class="o_tax_group_amount_value o_list_monetary">
+                            <field name="x_amount_untaxed" nolabel="1"/>
+                        </span>
+                    </td>
+                </tr>                
+                <tr invisible="not amount_tax">
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="amount_tax"/>
+                    </td>
+                    <td class="o_tax_group">
+                        <span class="o_tax_group_amount_value o_list_monetary">
+                            <field name="amount_tax" nolabel="1"/>
+                        </span>
+                    </td>
+                </tr>
+                <tr invisible="not x_discount">
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="x_discount"/>
+                    </td>
+                    <td class="o_tax_group">
+                        <span class="o_tax_group_amount_value o_list_monetary">
+                            <field name="x_discount" nolabel="1"/>
+                        </span>
+                    </td>
+                </tr>
+                <tr invisible="not amount_total">
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="amount_total"/>
+                    </td>
+                    <td class="o_list_monetary">
+                        <span name="amount_total" style="font-size: 1.3em; font-weight: bold; white-space: nowrap;" class="oe_subtotal_footer_separator">
+                            <field name="amount_total" nolabel="1"/>
+                        </span>
+                    </td>
+                </tr>
+                <tr invisible="not amount_residual">
+                    <td class="o_td_label">
+                        <label class="o_form_label o_tax_total_label" for="amount_residual"/>
+                    </td>
+                    <td class="o_tax_group">
+                        <span class="o_tax_group_amount_value o_list_monetary">
+                            <field name="amount_residual" nolabel="1"/>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </xpath>  
+</data>

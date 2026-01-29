@@ -12,7 +12,15 @@
 
     <xpath expr="/t[@t-name='sale.document_tax_totals']" position="inside">
         <t t-set="total_discount" t-value="sum(                 l.product_uom_qty * l.price_unit * (l.discount or 0.0) / 100                 for l in doc.order_line                 if not l.display_type            )"/>
-        <tr t-if="total_discount">
+      <tr t-if="doc.x_amount_untaxed">
+        <td class="text-start">
+          <span>Untaxed Amount</span>
+        </td>
+        <td class="text-end">
+          <span t-field="doc.x_amount_untaxed" t-options="{                           'widget': 'monetary',                           'display_currency': currency                       }"/>
+        </td>
+      </tr>
+      <tr t-if="total_discount">
             <td class="text-start">
                 <span>Discount</span>
             </td>
